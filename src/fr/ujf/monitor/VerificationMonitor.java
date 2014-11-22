@@ -1,13 +1,12 @@
-package fr.ujf.filesystem.monitor;
+package fr.ujf.monitor;
 
-import fr.ujf.hasNext.common.Verdict;
 
 public class VerificationMonitor {
 
 	private static final int DEFAULT_ID = -1;
 	private int id;
 	
-	private State currentState = State.Closed;
+	private State currentState = State.DoHasNext;
 	
 	public VerificationMonitor() {
 		this.id = DEFAULT_ID;
@@ -19,40 +18,22 @@ public class VerificationMonitor {
 
 	public void updateState(Event e) {
 		switch (this.currentState) {
-		case Closed:
+		case DoHasNext:
 			switch (e) {
-			case openWrite:
-				this.currentState = State.OpenedWrite;
+			case hasNext:
+				this.currentState = State.DoNext;
 				break;
-			case openRead:
-				this.currentState = State.OpenedRead;
-				break;
-			default: 
+			case next: 
 				this.currentState = State.Error;
 				break;
 			}
 			break;
-		case OpenedWrite:
+		case DoNext:
 			switch (e) {
-			case write:
+			case hasNext:
 				break;
-			case close:
-				this.currentState = State.Closed;
-				break;
-			default: 
-				this.currentState = State.Error;
-				break;
-			}
-			break;
-		case OpenedRead:
-			switch (e) {
-			case read:
-				break;
-			case close:
-				this.currentState = State.Closed;
-				break;
-			default: 
-				this.currentState = State.Error;
+			case next: 
+				this.currentState = State.DoHasNext;
 				break;
 			}
 			break;
@@ -64,11 +45,10 @@ public class VerificationMonitor {
 
 	public Verdict currentVerdict () {
 		switch(this.currentState) {
-		case Closed:
+		case DoHasNext:
 			return Verdict.CURRENTLY_TRUE;
-		case OpenedRead:
-		case OpenedWrite:
-			return Verdict.CURRENTLY_FALSE;
+		case DoNext:
+			return Verdict.CURRENTLY_TRUE;
 		case Error:
 			return Verdict.FALSE;
 		default:
@@ -87,3 +67,4 @@ public class VerificationMonitor {
 		return currentVerdict();
 	}
 }
+

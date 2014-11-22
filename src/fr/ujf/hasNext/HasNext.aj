@@ -1,6 +1,5 @@
-package fr.ujf.hasNext.iterator.aspect;
-import fr.ujf.hasNext.common.Verdict;
-import fr.ujf.hasNext.iterator.monitor.*;
+package fr.ujf.hasNext;
+import fr.ujf.monitor.*;
 
 public aspect HasNext {
 	

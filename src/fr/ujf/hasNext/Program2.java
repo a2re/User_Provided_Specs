@@ -1,4 +1,4 @@
-package fr.ujf.hasNext.enumeration.program;
+package fr.ujf.hasNext;
 
 import java.util.Iterator;
 import java.util.Vector;

@@ -1,4 +1,4 @@
-package fr.ujf.hasNext.common;
+package fr.ujf.monitor;
 
 public enum Verdict {
 	TRUE("true"),

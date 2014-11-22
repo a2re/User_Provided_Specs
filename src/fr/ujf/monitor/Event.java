@@ -1,7 +1,7 @@
-package fr.ujf.filesystem.monitor;
+package fr.ujf.monitor;
 
 public enum Event {
-	openWrite ("openWrite"), openRead ("openRead"), write("write"), read("read"), close("close");
+	hasNext ("hasNext"), next("next");
 	
 	private String name;
 	Event (String name) {

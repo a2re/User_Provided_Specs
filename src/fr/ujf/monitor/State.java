@@ -1,7 +1,7 @@
-package fr.ujf.filesystem.monitor;
+package fr.ujf.monitor;
 
 public enum State {
-	OpenedWrite("OpenedWrite"), OpenedRead("OpenedRead"), Closed("Closed"), Error("Error");
+	DoHasNext("DoHasNext"), DoNext("DoNext"), Error("Error");
 	
 	private String name;
 	State (String name) {
