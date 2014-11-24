@@ -1,4 +1,4 @@
-package fr.ujf.monitor;
+package tat.common;
 
 public enum Verdict {
 	TRUE("true"),
@@ -15,5 +15,4 @@ public enum Verdict {
 	public String getName() {
 		return this.verdictName;
 	}
-
 }

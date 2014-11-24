@@ -1,7 +1,7 @@
-package fr.ujf.monitor;
+package tat.enumeration.monitor;
 
 public enum State {
-	DoHasNext("DoHasNext"), DoNext("DoNext"), Error("Error");
+	Default("Default"), Error("Error");
 	
 	private String name;
 	State (String name) {

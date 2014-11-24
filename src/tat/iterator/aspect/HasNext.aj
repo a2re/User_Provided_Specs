@@ -1,5 +1,7 @@
-package fr.ujf.hasNext;
-import fr.ujf.monitor.*;
+package tat.iterator.aspect;
+import tat.common.Verdict;
+import tat.iterator.monitor.Event;
+import tat.iterator.monitor.VerificationMonitor;
 
 public aspect HasNext {
 	

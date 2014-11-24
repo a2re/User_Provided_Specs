@@ -1,4 +1,6 @@
-package fr.ujf.monitor;
+package tat.iterator.monitor;
+
+import tat.common.Verdict;
 
 
 public class VerificationMonitor {

@@ -1,7 +1,7 @@
-package fr.ujf.monitor;
+package tat.enumeration.monitor;
 
 public enum Event {
-	hasNext ("hasNext"), next("next");
+	create ("create"), nextElement("nextElement"), update("update");
 	
 	private String name;
 	Event (String name) {

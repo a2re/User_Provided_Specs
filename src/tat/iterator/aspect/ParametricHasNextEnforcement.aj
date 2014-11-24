@@ -1,11 +1,11 @@
-package fr.ujf.hasNext;
+package tat.iterator.aspect;
 
 import java.util.HashMap;
 import java.util.Iterator;
 
-import fr.ujf.monitor.Event;
-import fr.ujf.monitor.Verdict;
-import fr.ujf.monitor.VerificationMonitor;
+import tat.common.Verdict;
+import tat.iterator.monitor.Event;
+import tat.iterator.monitor.VerificationMonitor;
 
 public aspect ParametricHasNextEnforcement {
 

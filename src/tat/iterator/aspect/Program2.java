@@ -1,4 +1,4 @@
-package fr.ujf.hasNext;
+package tat.iterator.aspect;
 
 import java.util.Iterator;
 import java.util.Vector;
