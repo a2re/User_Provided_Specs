@@ -1,10 +1,9 @@
-package tat.enumeration.monitor;
+package tat.hashcode.monitor;
 
 public enum Event {
-	create("create"), update("update"), nextElement("nextElement");
+	modify("modify"), addToSet("addToSet"), removeToSet("removeToSet");
 	
 	private String name;
-	
 	Event (String name) {
 		this.name = name;
 	}

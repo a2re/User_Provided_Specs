@@ -1,10 +1,9 @@
-package tat.enumeration.monitor;
+package tat.filesystem.monitor;
 
 public enum Event {
-	create("create"), update("update"), nextElement("nextElement");
+	openRead ("openRead"), openWrite ("openWrite"), read("read"), write("write"), close("close");
 	
 	private String name;
-	
 	Event (String name) {
 		this.name = name;
 	}

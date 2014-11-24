@@ -1,4 +1,9 @@
-package tat.iterator.monitor;
+package tat.hashcode.monitor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import tat.common.Verdict;
 
 
 public class VerificationMonitor {
@@ -6,8 +11,10 @@ public class VerificationMonitor {
 	private static final int DEFAULT_ID = -1;
 	private int id;
 
-	private State currentState = State.DoHasNext;
-
+	private List<Integer> setList = new ArrayList<Integer>();
+	
+	private State currentState = State.Editable;
+	
 	public VerificationMonitor() {
 		this.id = DEFAULT_ID;
 	}
@@ -16,24 +23,30 @@ public class VerificationMonitor {
 		this.id = id;
 	}
 
-	public void updateState(Event e) {
+	public void updateState(Event e, Integer i) {
 		switch (this.currentState) {
-		case DoHasNext:
+		case Editable:
 			switch (e) {
-			case hasNext:
-				this.currentState = State.DoNext;
+			case addToSet:
+				setList.add(i);
+				this.currentState = State.NotEditable;
 				break;
-			case next: 
-				this.currentState = State.Error;
+			default: 
 				break;
 			}
 			break;
-		case DoNext:
-			switch (e) {
-			case hasNext:
+		case NotEditable:
+			switch (e) {		
+			case modify:
+				this.currentState = State.Error;
 				break;
-			case next: 
-				this.currentState = State.DoHasNext;
+			case addToSet:
+				setList.add(i);
+				break;
+			case removeToSet:
+				setList.remove((Integer) i);
+				if (setList.isEmpty())
+					this.currentState = State.Editable;
 				break;
 			}
 			break;
@@ -45,8 +58,8 @@ public class VerificationMonitor {
 
 	public Verdict currentVerdict () {
 		switch(this.currentState) {
-		case DoHasNext:
-		case DoNext:
+		case Editable:
+		case NotEditable:
 			return Verdict.CURRENTLY_TRUE;
 		case Error:
 			return Verdict.FALSE;
@@ -59,9 +72,9 @@ public class VerificationMonitor {
 		System.out.println("Monitor "+this.id+": "+currentVerdict());
 	}
 
-	public Verdict receiveEvent(Event e) {
+	public Verdict receiveEvent(Event e, Integer i) {
 		System.out.println("=> Monitor "+this.id+": received event "+e);
-		updateState(e);
+		updateState(e, i);
 		emitVerdict();
 		return currentVerdict();
 	}

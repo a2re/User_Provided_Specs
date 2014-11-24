@@ -1,55 +1,50 @@
 package tat.enumeration.monitor;
-import tat.enumeration.aspect.Enumeration;
+
 import java.util.HashMap;
-import java.util.Vector;
 
 import tat.common.Verdict;
-
+import tat.enumeration.monitor.State;
 
 public class VerificationMonitor {
 
 	private static final int DEFAULT_ID = -1;
 	private int id;
-	
-	private static State currentState = State.Default;
-	
-	HashMap<Integer, Integer> dsState = new HashMap<Integer, Integer>();
-	//HashMap<Integer, Integer> enumState = new HashMap<Integer, Integer>();
-	//HashMap<Integer, Integer> enumDs = new HashMap<Integer, Integer>();
-	Integer en;
-	Integer ds;
-	
+
+	public static HashMap<Integer, Integer> dsState = new HashMap<Integer, Integer>();
+	private Integer en;
+	private Integer ds;
+
+	private State currentState = State.Default;
+
 	public VerificationMonitor() {
 		this.id = DEFAULT_ID;
 	}
-	
-	public VerificationMonitor (int id) {
+
+	public VerificationMonitor(int id) {
 		this.id = id;
 	}
 
-	public void updateState(Event e, /*Integer t,*/ Integer v) {
+	public void updateState(Event e, Integer v) {
 		switch (this.currentState) {
 		case Default:
 			switch (e) {
 			case create:
-				//enumDs.put(t, v);
-				System.out.println("Before created : " + dsState.toString());
-					//enumState.put(t, dsState.get(v));
-					en = dsState.get(v);
-					ds = v;
+				this.ds = v;
+				en = dsState.get((Integer) v);
 				break;
 			case update:
-				if (dsState.containsKey(v))
-					dsState.put(v, dsState.get(v) + 1);
-				else {
-					dsState.put(v, 0);
+				if (dsState.containsKey((Integer) v)) {
+					dsState.put((Integer) v, dsState.get((Integer) v) + 1);
+				} else {
+					dsState.put((Integer) v, 0);
 				}
-				System.out.println("After updated : " + dsState.toString());
-				break;
-			case nextElement:
-				System.out.println("Before nextElement: " + dsState.toString());
-				if (en != dsState.get(v))
+			case nextElement: {
+				if (en != dsState.get(this.ds)) {
 					this.currentState = State.Error;
+				}
+				break;
+			}
+			default:
 				break;
 			}
 			break;
@@ -59,8 +54,8 @@ public class VerificationMonitor {
 		}
 	}
 
-	public Verdict currentVerdict () {
-		switch(this.currentState) {
+	public Verdict currentVerdict() {
+		switch (this.currentState) {
 		case Default:
 			return Verdict.CURRENTLY_TRUE;
 		case Error:
@@ -70,15 +65,14 @@ public class VerificationMonitor {
 		}
 	}
 
-	public void emitVerdict () {
-		System.out.println("Monitor "+this.id+": "+currentVerdict());
+	public void emitVerdict() {
+		System.out.println("Monitor " + this.id + ": " + currentVerdict());
 	}
 
-	public Verdict receiveEvent(Event e, Integer v) {
-		System.out.println("=> Monitor "+this.id+": received event "+e);
-		updateState(e, v);
+	public Verdict receiveEvent(Event e, Integer i) {
+		System.out.println("=> Monitor " + this.id + ": received event " + e);
+		updateState(e, i);
 		emitVerdict();
 		return currentVerdict();
 	}
 }
-

@@ -1,39 +1,59 @@
-package tat.iterator.monitor;
+package tat.filesystem.monitor;
+
+import tat.common.Verdict;
 
 
 public class VerificationMonitor {
 
 	private static final int DEFAULT_ID = -1;
 	private int id;
-
-	private State currentState = State.DoHasNext;
-
+	
+	private State currentState = State.Closed;
+	
 	public VerificationMonitor() {
 		this.id = DEFAULT_ID;
 	}
-
+	
 	public VerificationMonitor (int id) {
 		this.id = id;
 	}
 
 	public void updateState(Event e) {
 		switch (this.currentState) {
-		case DoHasNext:
+		case Closed:
 			switch (e) {
-			case hasNext:
-				this.currentState = State.DoNext;
+			case openWrite:
+				this.currentState = State.OpenedWrite;
 				break;
-			case next: 
+			case openRead:
+				this.currentState = State.OpenedRead;
+				break;
+			default: 
 				this.currentState = State.Error;
 				break;
 			}
 			break;
-		case DoNext:
+		case OpenedWrite:
 			switch (e) {
-			case hasNext:
+			case write:
 				break;
-			case next: 
-				this.currentState = State.DoHasNext;
+			case close:
+				this.currentState = State.Closed;
+				break;
+			default: 
+				this.currentState = State.Error;
+				break;
+			}
+			break;
+		case OpenedRead:
+			switch (e) {
+			case read:
+				break;
+			case close:
+				this.currentState = State.Closed;
+				break;
+			default: 
+				this.currentState = State.Error;
 				break;
 			}
 			break;
@@ -45,9 +65,11 @@ public class VerificationMonitor {
 
 	public Verdict currentVerdict () {
 		switch(this.currentState) {
-		case DoHasNext:
-		case DoNext:
+		case Closed:
 			return Verdict.CURRENTLY_TRUE;
+		case OpenedRead:
+		case OpenedWrite:
+			return Verdict.CURRENTLY_FALSE;
 		case Error:
 			return Verdict.FALSE;
 		default:

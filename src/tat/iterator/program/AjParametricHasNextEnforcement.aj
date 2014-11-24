@@ -1,15 +1,17 @@
-package tat.iterator.aspect;
+package tat.iterator.program;
 
 import java.util.HashMap;
 import java.util.Iterator;
 
-import tat.common.Verdict;
 import tat.iterator.monitor.Event;
+import tat.iterator.monitor.Verdict;
 import tat.iterator.monitor.VerificationMonitor;
 
-public aspect ParametricHasNextEnforcement {
+@SuppressWarnings("rawtypes")
+public aspect AjParametricHasNextEnforcement {
 
 	public final static boolean enabled = true;
+	
 	HashMap<Iterator, VerificationMonitor> iteratorMap = new HashMap<Iterator, VerificationMonitor>();
 
 	public Verdict dispatchEvent(String concreteEventName, Iterator it) {

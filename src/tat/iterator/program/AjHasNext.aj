@@ -1,9 +1,10 @@
-package tat.iterator.aspect;
-import tat.common.Verdict;
+package tat.iterator.program;
+
 import tat.iterator.monitor.Event;
+import tat.iterator.monitor.Verdict;
 import tat.iterator.monitor.VerificationMonitor;
 
-public aspect HasNext {
+public aspect AjHasNext {
 	
 	public final static boolean enabled = true;
 
